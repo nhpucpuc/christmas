@@ -16,10 +16,10 @@
             /* Bước 1: Chuẩn bị ảnh ngang tên background.jpg để cùng thư mục */
             /* Bước 2: Bỏ dấu gạch chéo (comment) 2 dòng dưới đây: */
             
-            background: url('background.jpg') no-repeat center center; 
-            background-size: cover; 
+             background: url('background.jpg') no-repeat center center; 
+             background-size: cover; 
 
-            /* Màu nền mặc định (dùng khi chưa có ảnh) */
+
             
             font-family: 'Quicksand', sans-serif;
             color: white;
@@ -170,10 +170,10 @@
 
     <!-- Scene 1: Intro -->
     <div id="scene1" class="scene active bg-black/40">
-        <h1 class="christmas-font text-6xl md:text-8xl text-white text-center glowing-text mb-4 font-bold">
+        <h1 class="christmas-font text-5xl md:text-8xl text-white text-center glowing-text mb-4 font-bold">
             MERRY<br>CHRISTMAS<br>2025
         </h1>
-        <p class="text-xl md:text-2xl text-blue-200 mb-8 christmas-font font-bold tracking-wider">Chạm nhẹ để mở quà...</p>
+        <p class="text-lg md:text-2xl text-blue-200 mb-8 christmas-font font-bold tracking-wider">Chạm nhẹ để mở quà...</p>
         <button onclick="nextScene(2)" class="start-btn text-white font-bold py-3 px-8 rounded-full text-xl transition transform hover:-translate-y-1">
             <i class="fas fa-gift mr-2"></i> Mở Thiệp
         </button>
@@ -185,18 +185,20 @@
              <i class="fas fa-moon text-yellow-100 text-6xl opacity-80" style="text-shadow: 0 0 20px white;"></i>
         </div>
 
-        <div class="message-container bg-black/20 rounded-3xl border border-white/5 p-8 backdrop-blur-sm shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+        <div class="message-container bg-black/20 rounded-3xl border border-white/5 p-4 md:p-8 backdrop-blur-sm shadow-[0_0_30px_rgba(255,255,255,0.1)]">
             <!-- 
                 CHỈNH SỬA LỜI CHÚC Ở ĐÂY 
                 Mỗi dòng là một thẻ <p> hoặc <h1>, <h2>
                 style="animation-delay: X.Xs" quy định thời gian xuất hiện (số càng lớn hiện càng trễ)
             -->
             
-            <h2 class="christmas-font text-5xl text-yellow-300 mb-8 fade-in-line font-bold" style="animation-delay: 0.5s">
+            <!-- Đã điều chỉnh font-size: text-3xl cho mobile, text-5xl cho PC -->
+            <h2 class="christmas-font text-3xl md:text-5xl text-yellow-300 mb-6 md:mb-8 fade-in-line font-bold" style="animation-delay: 0.5s">
                 Gửi Hương Giang thân yêu,
             </h2>
             
-            <div class="space-y-4 text-2xl md:text-3xl text-gray-100 leading-relaxed christmas-font">
+            <!-- Đã điều chỉnh font-size: text-lg cho mobile, text-3xl cho PC -->
+            <div class="space-y-3 md:space-y-4 text-lg md:text-3xl text-gray-100 leading-relaxed christmas-font">
                 <p class="fade-in-line" style="animation-delay: 1.5s">
                     Mùa đông năm nay lạnh hơn mọi năm,
                 </p>
@@ -217,15 +219,16 @@
                 </p>
             </div>
 
-            <div class="mt-10 fade-in-line" style="animation-delay: 10.5s">
-                <span class="text-4xl md:text-5xl text-red-500 christmas-font font-bold" style="text-shadow: 0 0 10px white;">
+            <!-- Đã điều chỉnh font-size: text-3xl cho mobile, text-5xl cho PC -->
+            <div class="mt-8 md:mt-10 fade-in-line" style="animation-delay: 10.5s">
+                <span class="text-3xl md:text-5xl text-red-500 christmas-font font-bold" style="text-shadow: 0 0 10px white;">
                     Yêu em nhiều! ❤️
                 </span>
             </div>
         </div>
         
         <!-- Replay Button -->
-        <button onclick="location.reload()" class="mt-10 text-sm text-gray-400 hover:text-white underline z-50 fade-in-line" style="animation-delay: 12s">
+        <button onclick="location.reload()" class="mt-8 md:mt-10 text-sm text-gray-400 hover:text-white underline z-50 fade-in-line" style="animation-delay: 12s">
             <i class="fas fa-redo mr-1"></i> Xem lại từ đầu
         </button>
     </div>
