@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merry Christmas 2025 - Gửi Hương Giang</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Mountains+of+Christmas:wght@400;700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            
+            /* --- 1. CẤU HÌNH ẢNH NỀN CHO MÁY TÍNH (ẢNH NGANG) --- */
+            /* Bước 1: Chuẩn bị ảnh ngang tên background.jpg để cùng thư mục */
+            /* Bước 2: Bỏ dấu gạch chéo (comment) 2 dòng dưới đây: */
+            
+            background: url('background.jpg') no-repeat center center; 
+            background-size: cover; 
+
+            /* Màu nền mặc định (dùng khi chưa có ảnh) */
+            
+            font-family: 'Quicksand', sans-serif;
+            color: white;
+            height: 100vh;
+        }
+
+        /* --- 2. CẤU HÌNH ẢNH NỀN RIÊNG CHO ĐIỆN THOẠI (KHẮC PHỤC LỖI BỊ CẮT ẢNH) --- */
+        /* Bước 1: Chuẩn bị 1 ảnh dọc tên background-mobile.jpg để cùng thư mục */
+        /* Bước 2: Bỏ dấu gạch chéo đoạn code @media dưới đây: */
+        
+        
+        @media (max-width: 768px) {
+            body {
+                background: url('background-mobile.jpg') no-repeat center center !important;
+                background-size: cover !important;
+            }
+        }
+        
+
+        /* Typography */
+        .christmas-font {
+            font-family: 'Mountains of Christmas', cursive;
+        }
+        .handwriting {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Snow Canvas */
+        #snow-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Scenes */
+        .scene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        .scene.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1);
+        }
+
+        .scene.hidden-scene {
+            opacity: 0;
+            transform: scale(1.1);
+            pointer-events: none;
+        }
+
+        /* Scene 1: Intro Text */
+        .glowing-text {
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073, 0 0 40px #e60073, 0 0 50px #e60073, 0 0 60px #e60073, 0 0 70px #e60073;
+            animation: glow 1.5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #e60073; }
+            to { text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6; }
+        }
+
+        /* Scene 2: Message Animation (Line by Line) */
+        .message-container {
+            width: 90%;
+            max-width: 800px;
+            text-align: center;
+            z-index: 20;
+        }
+
+        .fade-in-line {
+            opacity: 0;
+            transform: translateY(20px);
+            /* Animation will be triggered when scene becomes active */
+        }
+
+        .scene.active .fade-in-line {
+            animation: fadeInUp 1.5s ease-out forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Music Button */
+        .music-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .music-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+        
+        .start-btn {
+            background: linear-gradient(to right, #d4145a, #fbb03b);
+            box-shadow: 0 4px 15px rgba(212, 20, 90, 0.5);
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- --- CẤU HÌNH NHẠC TỪ FILE TRONG MÁY --- -->
+    <audio id="bg-music" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Canvas for Snow -->
+    <canvas id="snow-canvas"></canvas>
+
+    <!-- Music Control -->
+    <button class="music-btn" onclick="toggleMusic()">
+        <i id="music-icon" class="fas fa-play text-white text-xl"></i>
+    </button>
+
+    <!-- Scene 1: Intro -->
+    <div id="scene1" class="scene active bg-black/40">
+        <h1 class="christmas-font text-6xl md:text-8xl text-white text-center glowing-text mb-4 font-bold">
+            MERRY<br>CHRISTMAS<br>2025
+        </h1>
+        <p class="text-xl md:text-2xl text-blue-200 mb-8 christmas-font font-bold tracking-wider">Chạm nhẹ để mở quà...</p>
+        <button onclick="nextScene(2)" class="start-btn text-white font-bold py-3 px-8 rounded-full text-xl transition transform hover:-translate-y-1">
+            <i class="fas fa-gift mr-2"></i> Mở Thiệp
+        </button>
+    </div>
+
+    <!-- Scene 2: Message & Santa (Final Scene) -->
+    <div id="scene2" class="scene hidden-scene">
+        <div class="absolute top-5 w-full text-center">
+             <i class="fas fa-moon text-yellow-100 text-6xl opacity-80" style="text-shadow: 0 0 20px white;"></i>
+        </div>
+
+        <div class="message-container bg-black/20 rounded-3xl border border-white/5 p-8 backdrop-blur-sm shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+            <!-- 
+                CHỈNH SỬA LỜI CHÚC Ở ĐÂY 
+                Mỗi dòng là một thẻ <p> hoặc <h1>, <h2>
+                style="animation-delay: X.Xs" quy định thời gian xuất hiện (số càng lớn hiện càng trễ)
+            -->
+            
+            <h2 class="christmas-font text-5xl text-yellow-300 mb-8 fade-in-line font-bold" style="animation-delay: 0.5s">
+                Gửi Hương Giang thân yêu,
+            </h2>
+            
+            <div class="space-y-4 text-2xl md:text-3xl text-gray-100 leading-relaxed christmas-font">
+                <p class="fade-in-line" style="animation-delay: 1.5s">
+                    Mùa đông năm nay lạnh hơn mọi năm,
+                </p>
+                <p class="fade-in-line" style="animation-delay: 3.0s">
+                    nhưng có em, lòng anh thấy ấm áp lạ thường.
+                </p>
+                <p class="fade-in-line" style="animation-delay: 4.5s">
+                    Chúc em một mùa Giáng Sinh an lành,
+                </p>
+                <p class="fade-in-line text-pink-300" style="animation-delay: 6.0s">
+                    tràn ngập niềm vui và hạnh phúc.
+                </p>
+                <p class="fade-in-line" style="animation-delay: 7.5s">
+                    Cảm ơn em đã đến bên anh.
+                </p>
+                <p class="fade-in-line" style="animation-delay: 9.0s">
+                    Cùng nhau đón năm mới 2025 rực rỡ nhé!
+                </p>
+            </div>
+
+            <div class="mt-10 fade-in-line" style="animation-delay: 10.5s">
+                <span class="text-4xl md:text-5xl text-red-500 christmas-font font-bold" style="text-shadow: 0 0 10px white;">
+                    Yêu em nhiều! ❤️
+                </span>
+            </div>
+        </div>
+        
+        <!-- Replay Button -->
+        <button onclick="location.reload()" class="mt-10 text-sm text-gray-400 hover:text-white underline z-50 fade-in-line" style="animation-delay: 12s">
+            <i class="fas fa-redo mr-1"></i> Xem lại từ đầu
+        </button>
+    </div>
+
+    <script>
+        // --- Snow Effect ---
+        const canvas = document.getElementById('snow-canvas');
+        const ctx = canvas.getContext('2d');
+        let width = window.innerWidth;
+        let height = window.innerHeight;
+        canvas.width = width;
+        canvas.height = height;
+
+        const snowflakes = [];
+        const numFlakes = 200;
+
+        class Snowflake {
+            constructor() {
+                this.x = Math.random() * width;
+                this.y = Math.random() * height;
+                this.size = Math.random() * 3 + 1;
+                this.speed = Math.random() * 1 + 0.5;
+                this.opacity = Math.random() * 0.5 + 0.3;
+                this.sway = Math.random() * 0.1 - 0.05;
+            }
+
+            update() {
+                this.y += this.speed;
+                this.x += Math.sin(this.y * 0.01) + this.sway;
+
+                if (this.y > height) {
+                    this.y = 0;
+                    this.x = Math.random() * width;
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < numFlakes; i++) {
+            snowflakes.push(new Snowflake());
+        }
+
+        function animateSnow() {
+            ctx.clearRect(0, 0, width, height);
+            snowflakes.forEach(flake => {
+                flake.update();
+                flake.draw();
+            });
+            requestAnimationFrame(animateSnow);
+        }
+
+        window.addEventListener('resize', () => {
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+        });
+
+        animateSnow();
+
+        // --- Music Control ---
+        const audio = document.getElementById('bg-music');
+        const musicIcon = document.getElementById('music-icon');
+        let isPlaying = false;
+
+        function toggleMusic() {
+            if (isPlaying) {
+                audio.pause();
+                musicIcon.classList.remove('fa-pause');
+                musicIcon.classList.add('fa-play');
+            } else {
+                audio.play();
+                musicIcon.classList.remove('fa-play');
+                musicIcon.classList.add('fa-pause');
+            }
+            isPlaying = !isPlaying;
+        }
+
+        // --- Scene Transition ---
+        function nextScene(sceneNumber) {
+            // Hide all scenes
+            document.querySelectorAll('.scene').forEach(el => {
+                el.classList.remove('active');
+                el.classList.add('hidden-scene');
+            });
+
+            // Show target scene
+            const target = document.getElementById(`scene${sceneNumber}`);
+            target.classList.remove('hidden-scene');
+            target.classList.add('active');
+
+            // Auto play music on first click if not playing (browser policy workaround)
+            if (sceneNumber === 2 && !isPlaying) {
+                toggleMusic();
+            }
+        }
+    </script>
+</body>
+</html>
