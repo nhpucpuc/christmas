@@ -6,34 +6,38 @@
     <title>Merry Christmas 2025 - Gửi Hương Giang</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Mountains+of+Christmas:wght@400;700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Mountains+of+Christmas:wght@400;700&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
             margin: 0;
             overflow: hidden;
             
-            /* --- CẤU HÌNH ẢNH NỀN CHO MÁY TÍNH --- */
+            /* --- 1. CẤU HÌNH ẢNH NỀN CHO MÁY TÍNH (ẢNH NGANG) --- */
+            /* Bước 1: Chuẩn bị ảnh ngang tên background.jpg để cùng thư mục */
+            /* Bước 2: Bỏ dấu gạch chéo (comment) 2 dòng dưới đây: */
+            
              background: url('background.jpg') no-repeat center center; 
              background-size: cover; 
 
-            /* Mặc định màu nền nếu chưa có ảnh */
-            /* background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%); */
+
             
             font-family: 'Quicksand', sans-serif;
             color: white;
             height: 100vh;
-            /* Giúp font chữ mượt hơn trên mobile */
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* --- CẤU HÌNH ẢNH NỀN CHO ĐIỆN THOẠI --- */
+        /* --- 2. CẤU HÌNH ẢNH NỀN RIÊNG CHO ĐIỆN THOẠI (KHẮC PHỤC LỖI BỊ CẮT ẢNH) --- */
+        /* Bước 1: Chuẩn bị 1 ảnh dọc tên background-mobile.jpg để cùng thư mục */
+        /* Bước 2: Bỏ dấu gạch chéo đoạn code @media dưới đây: */
+        
+        
         @media (max-width: 768px) {
             body {
                 background: url('background-mobile.jpg') no-repeat center center !important;
                 background-size: cover !important;
             }
         }
+        
 
         /* Typography */
         .christmas-font {
@@ -65,7 +69,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 1s ease-in-out;
+            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
             opacity: 0;
             pointer-events: none;
             z-index: 10;
@@ -74,10 +78,12 @@
         .scene.active {
             opacity: 1;
             pointer-events: auto;
+            transform: scale(1);
         }
 
         .scene.hidden-scene {
             opacity: 0;
+            transform: scale(1.1);
             pointer-events: none;
         }
 
@@ -92,25 +98,18 @@
             to { text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6; }
         }
 
-        /* Scene 2: Message Container */
+        /* Scene 2: Message Animation (Line by Line) */
         .message-container {
-            width: 95%;
+            width: 90%;
             max-width: 800px;
             text-align: center;
             z-index: 20;
-            /* Thêm cuộn nếu màn hình quá ngắn */
-            max-height: 85vh;
-            overflow-y: auto;
-            /* Ẩn thanh cuộn cho đẹp */
-            scrollbar-width: none; 
-        }
-        .message-container::-webkit-scrollbar { 
-            display: none; 
         }
 
         .fade-in-line {
             opacity: 0;
             transform: translateY(20px);
+            /* Animation will be triggered when scene becomes active */
         }
 
         .scene.active .fade-in-line {
@@ -142,6 +141,10 @@
             cursor: pointer;
             transition: all 0.3s;
         }
+        .music-btn:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
         
         .start-btn {
             background: linear-gradient(to right, #d4145a, #fbb03b);
@@ -152,12 +155,15 @@
 </head>
 <body>
 
+    <!-- --- CẤU HÌNH NHẠC TỪ FILE TRONG MÁY --- -->
     <audio id="bg-music" loop>
         <source src="music.mp3" type="audio/mpeg">
     </audio>
 
+    <!-- Canvas for Snow -->
     <canvas id="snow-canvas"></canvas>
 
+    <!-- Music Control -->
     <button class="music-btn" onclick="toggleMusic()">
         <i id="music-icon" class="fas fa-play text-white text-xl"></i>
     </button>
@@ -173,50 +179,59 @@
         </button>
     </div>
 
-    <!-- Scene 2: Message -->
+    <!-- Scene 2: Message & Santa (Final Scene) -->
     <div id="scene2" class="scene hidden-scene">
-        <div class="absolute top-2 w-full text-center">
-             <i class="fas fa-moon text-yellow-100 text-5xl opacity-80" style="text-shadow: 0 0 20px white;"></i>
+        <div class="absolute top-5 w-full text-center">
+             <i class="fas fa-moon text-yellow-100 text-6xl opacity-80" style="text-shadow: 0 0 20px white;"></i>
         </div>
 
-        <div class="message-container bg-black/30 rounded-3xl border border-white/10 p-5 md:p-8 backdrop-blur-md shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+        <div class="message-container bg-black/20 rounded-3xl border border-white/5 p-4 md:p-8 backdrop-blur-sm shadow-[0_0_30px_rgba(255,255,255,0.1)]">
+            <!-- 
+                CHỈNH SỬA LỜI CHÚC Ở ĐÂY 
+                Mỗi dòng là một thẻ <p> hoặc <h1>, <h2>
+                style="animation-delay: X.Xs" quy định thời gian xuất hiện (số càng lớn hiện càng trễ)
+            -->
             
-            <h2 class="christmas-font text-3xl md:text-5xl text-yellow-300 mb-6 fade-in-line font-bold" style="animation-delay: 0.5s">
+            <!-- Đã điều chỉnh font-size: text-3xl cho mobile, text-5xl cho PC -->
+            <h2 class="christmas-font text-3xl md:text-5xl text-yellow-300 mb-6 md:mb-8 fade-in-line font-bold" style="animation-delay: 0.5s">
                 Gửi cho Nhi nhớ,
             </h2>
             
-            <!-- Đã bỏ font-bold ở đây để chữ không bị nhòe/méo -->
-            <div class="space-y-4 text-xl md:text-3xl text-gray-50 leading-loose christmas-font">
+            <!-- Đã điều chỉnh font-size: text-lg cho mobile, text-3xl cho PC -->
+            <div class="space-y-3 md:space-y-4 text-lg md:text-3xl text-gray-100 leading-relaxed christmas-font">
                 <p class="fade-in-line" style="animation-delay: 1.5s">
                     Hôm nay là ngày lễ Giáng Sinh, anh muốn gửi đến em những lời chúc tốt đẹp nhất.
                 </p>
                 <p class="fade-in-line" style="animation-delay: 3.0s">
-                    Chúc em một mùa Giáng Sinh an lành, bình an, ấm áp,
+                    Chúc em một mùa Giáng Sinh an lành, bình an, ấm áp
                 </p>
                 <p class="fade-in-line" style="animation-delay: 4.5s">
                     may mắn và hạnh phúc bên gia đình và những người thân yêu.
                 </p>
-                <p class="fade-in-line text-pink-300 font-bold" style="animation-delay: 6.0s">
-                    Chúc em luôn vui vẻ, tích cực và nở thêm nhiều nụ cười tươi trên môi nhoa ngừi đẹpppp.
+                <p class="fade-in-line" style="animation-delay: 9.0s">
+                    
+                </p>
+                <p class="fade-in-line text-pink-300" style="animation-delay: 6.0s">
+                    Chúc em luôn vui vẻ, tích cực và nở thêm nhiều nụ cười tươi trên môi nhoa ngừi đẹpppp
                 </p>
                 <p class="fade-in-line" style="animation-delay: 7.5s">
                     Chúc cho năm mới này em đạt được KPI (với anh) nhớ 🙄
                 </p>
+
             </div>
 
-            <div class="mt-8 md:mt-10 fade-in-line" style="animation-delay: 9.0s">
-                <span class="text-4xl md:text-5xl text-red-500 christmas-font font-bold" style="text-shadow: 0 0 10px white;">
-                    Thích em nhìuuu! ❤️
+            <!-- Đã điều chỉnh font-size: text-3xl cho mobile, text-5xl cho PC -->
+            <div class="mt-8 md:mt-10 fade-in-line" style="animation-delay: 9.5s">
+                <span class="text-3xl md:text-5xl text-red-500 christmas-font font-bold" style="text-shadow: 0 0 10px white;">
+                    Thích em nhìuuu! 
                 </span>
             </div>
-            
-            <!-- Replay Button -->
-            <div class="mt-8 fade-in-line" style="animation-delay: 10s; padding-bottom: 20px;">
-                <button onclick="location.reload()" class="text-sm text-gray-300 hover:text-white underline">
-                    <i class="fas fa-redo mr-1"></i> Xem lại từ đầu
-                </button>
-            </div>
         </div>
+        
+        <!-- Replay Button -->
+        <button onclick="location.reload()" class="mt-8 md:mt-10 text-sm text-gray-400 hover:text-white underline z-50 fade-in-line" style="animation-delay: 12s">
+            <i class="fas fa-redo mr-1"></i> Xem lại từ đầu
+        </button>
     </div>
 
     <script>
@@ -229,7 +244,7 @@
         canvas.height = height;
 
         const snowflakes = [];
-        const numFlakes = 150; // Giảm nhẹ số lượng tuyết cho mobile mượt hơn
+        const numFlakes = 200;
 
         class Snowflake {
             constructor() {
@@ -244,6 +259,7 @@
             update() {
                 this.y += this.speed;
                 this.x += Math.sin(this.y * 0.01) + this.sway;
+
                 if (this.y > height) {
                     this.y = 0;
                     this.x = Math.random() * width;
@@ -300,14 +316,18 @@
 
         // --- Scene Transition ---
         function nextScene(sceneNumber) {
+            // Hide all scenes
             document.querySelectorAll('.scene').forEach(el => {
                 el.classList.remove('active');
                 el.classList.add('hidden-scene');
             });
+
+            // Show target scene
             const target = document.getElementById(`scene${sceneNumber}`);
             target.classList.remove('hidden-scene');
             target.classList.add('active');
 
+            // Auto play music on first click if not playing (browser policy workaround)
             if (sceneNumber === 2 && !isPlaying) {
                 toggleMusic();
             }
